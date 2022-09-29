@@ -1,11 +1,17 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import 'bulma/css/bulma.css';
+import VMContract from './vending-machine';
 
 const Home = () => {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [donutsAvailable, setDonutsAvailable] = useState(0);
+
+  useEffect(() => {
+    getVendingMachineBalance();
+  }, []);
 
   const connectWalletHandler = async () => {
     if (!window.ethereum) {
@@ -18,14 +24,19 @@ const Home = () => {
       setError(err.message);
     }
   };
+
+  const getVendingMachineBalance = async () => {
+    const res = await VMContract.methods.getVendingMachineBalance().call();
+    setDonutsAvailable(Number.parseInt(res));
+  };
   return (
     <div className={styles.main}>
       <Head>
-        <title>VendingMachine App</title>
+        <title>Vending Machine App</title>
         <meta name="description" content="A blockchain vending app" />
       </Head>
-      <nav className="navbar mt-4 mb-4">
-        <div className="container">
+      <div className="container">
+        <nav className="navbar mt-4 mb-4">
           <div className="navbar-brand">
             <h1>Vending Machine</h1>
           </div>
@@ -37,8 +48,10 @@ const Home = () => {
               Connect Wallet
             </button>
           </div>
-        </div>
-      </nav>
+        </nav>
+
+        <h2>Donuts available: {donutsAvailable}</h2>
+      </div>
       <section>
         <div className="container has-text-danger">
           <p>{error}</p>
