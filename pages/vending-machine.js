@@ -1,11 +1,3 @@
-import Web3 from 'web3';
-
-const provider = new Web3.providers.HttpProvider(
-  'https://rinkeby.infura.io/v3/e9628e429a9d4c4a9f05773f4fd5b65c'
-);
-
-const web3 = new Web3(provider);
-
 const abi = [
   { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
   {
@@ -49,6 +41,6 @@ const abi = [
 
 const contractAddress = '0xe521174f3ba253215577fb19502F4B2e12B0c15f';
 
-const VMContract = new web3.eth.Contract(abi, contractAddress);
+const getContract = (web3) => new web3.eth.Contract(abi, contractAddress);
 
-export default VMContract;
+export default getContract;
