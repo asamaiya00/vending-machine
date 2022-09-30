@@ -41,6 +41,6 @@ const abi = [
 
 const contractAddress = '0xe521174f3ba253215577fb19502F4B2e12B0c15f';
 
-const getContract = (web3) => new web3.eth.Contract(abi, contractAddress);
+const getContract = (web3) => new web3.eth.Contract(abi, contractAddress) || null;
 
 export default getContract;
